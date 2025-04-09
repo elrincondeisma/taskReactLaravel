@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class TaskController extends Controller
 {
@@ -16,6 +18,10 @@ class TaskController extends Controller
      */
     public function index()
     {
+        $tasks = Auth::user()->tasks()->latest()->paginate(2);
+        return Inertia::render('tasks/index', [
+            'tasks' => $tasks
+        ]);
         //
     }
 
@@ -65,5 +71,14 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         //
+        $task->delete();
+        return to_route('tasks.index')->with('success', 'La tarea ha sido eliminada corréctamente');
+    }
+    public function toggleComplete(Task $task)
+    {
+        $this->authorize('update', $task);
+        $task->status = $task->status == "completed" ? 'pending' : 'completed';
+        $task->save();
+        return back()->with('success', 'Estado actualizado');
     }
 }

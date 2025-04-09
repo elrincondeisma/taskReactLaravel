@@ -13,6 +13,7 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
     Route::resource('tasks', TaskController::class);
+    Route::patch('/tasks/{task}/toggle-complete', [TaskController::class, 'toggleComplete'])->name('task.toggle-complete');
 });
 
 require __DIR__ . '/settings.php';
