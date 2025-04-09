@@ -47,7 +47,9 @@ export default function index({ tasks }: TasksIndexProps) {
         }
     };
     const toggleComplete = (task: Task) => {
-        router.patch('tasks.toggleComplete');
+        router.patch(route('task.toggle-complete', { task: task.id }), {
+            preserveScroll: true,
+        });
     };
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -100,7 +102,11 @@ export default function index({ tasks }: TasksIndexProps) {
                                         {tasks.data.map((task) => (
                                             <TableRow key={task.id} className={task.status == 'completed' ? 'opacity-60' : ''}>
                                                 <TableCell>
-                                                    <Checkbox></Checkbox>
+                                                    <Checkbox
+                                                        checked={task.status == 'completed'}
+                                                        onCheckedChange={() => toggleComplete(task)}
+                                                        className="h-6 w-6"
+                                                    ></Checkbox>
                                                 </TableCell>
                                                 <TableCell className={task.status == 'completed' ? 'line-through' : ''}>{task.title}</TableCell>
                                                 <TableCell>
