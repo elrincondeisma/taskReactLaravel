@@ -67,7 +67,7 @@ export default function index({ tasks }: TasksIndexProps) {
                 <Card className={!hasTasks ? 'border-dashed' : ''}>
                     {!hasTasks ? (
                         <CardContent className="flex flex-col items-center justify-center p-6 text-center">
-                            <div className="rounder-full bg-muted mb-4 p-3">
+                            <div className="bg-muted mb-4 rounded-full p-3">
                                 <ClipboardPlusIcon className="h-6 w-6" />
                             </div>
                             <CardTitle className="text-lg">No tienes tareas todavia</CardTitle>

@@ -1,6 +1,5 @@
 import { Task } from '@/types';
 import { Link, useForm } from '@inertiajs/react';
-import { Checkbox } from '@radix-ui/react-checkbox';
 import { ArrowLeftIcon, SaveIcon } from 'lucide-react';
 import { FormEvent } from 'react';
 import InputError from '../input-error';
@@ -80,18 +79,6 @@ export default function TaskForm({ task, mode }: TaskFormProps) {
                         />
                         <InputError message={errors.due_date} className="mt-2" />
                     </div>
-                    {mode === 'edit' && (
-                        <div className="flex items-center space-x-2">
-                            <Checkbox
-                                id="is_completed"
-                                checked={data.is_completed === 'completed'}
-                                onCheckedChange={(checked) => setData('is_completed', checked ? 'completed' : 'pending')}
-                                disabled={processing}
-                            />
-                            <Label htmlFor="is_completed">Marcar como completada</Label>
-                            <InputError message={errors.is_completed} className="mt-2" />
-                        </div>
-                    )}
                 </CardContent>
                 <CardFooter className="mt-4 flex justify-between">
                     <Button asChild type="button" variant="outline" disabled={processing}>
@@ -100,7 +87,7 @@ export default function TaskForm({ task, mode }: TaskFormProps) {
                             Volver
                         </Link>
                     </Button>
-                    <Button asChild type="submit" disabled={processing}>
+                    <Button type="submit" disabled={processing}>
                         <SaveIcon className="mr-2 h-4 w-4" />
                         {buttonText}
                     </Button>

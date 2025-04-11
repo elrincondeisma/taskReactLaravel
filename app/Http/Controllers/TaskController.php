@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Task\TaskRequest;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,14 +32,18 @@ class TaskController extends Controller
     public function create()
     {
         //
+        return Inertia::render('tasks/create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TaskRequest $request)
     {
         //
+        // dd($request->validated());
+        Auth::user()->tasks()->create($request->validated());
+        return to_route('tasks.index')->with('success', 'La tarea ha sido creada corréctamente');
     }
 
     /**
@@ -47,6 +52,9 @@ class TaskController extends Controller
     public function show(Task $task)
     {
         //
+        return Inertia::render('tasks/show', [
+            'task' => $task
+        ]);
     }
 
     /**
@@ -55,14 +63,19 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         //
+        return Inertia::render('tasks/edit', [
+            'task' => $task
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Task $task)
+    public function update(TaskRequest $request, Task $task)
     {
         //
+        $task->update($request->validated());
+        return to_route('tasks.index')->with('success', 'La tarea ha sido actualizada corréctamente');
     }
 
     /**
